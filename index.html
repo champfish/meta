@@ -1,0 +1,122 @@
+<html>
+    <head>
+        <title>Metamorphosis</title>
+        <style>
+            button {
+                width: 20%;
+                background-color: white;
+                height: 35px;
+                float: bottom;
+            }
+
+            #isolation{
+                height: 67px;
+                width: 100px;
+                background-image: url(picframed1.png); 
+                background-repeat: no-repeat; 
+                background-position: left top; 
+                margin-top: -180px;
+                margin-left: 118px; 
+                opacity: 0;
+            }
+
+            #fillial{
+                height: 38px;
+                width: 35px;
+                background-image: url(newappleperfect.png); 
+                background-repeat: no-repeat; 
+                background-position: left top; 
+                margin-top: -195px;
+                margin-left: 950px;  
+                opacity: 0;
+            }
+
+            #buraucracy{
+                background-image: url(goldpicture.png); 
+                background-repeat: no-repeat; 
+                background-position: left top;
+                height: 35px;
+                width: 38px;
+                margin-top: 117px; 
+                margin-left: 435px;
+                opacity:0;
+            }
+
+            #egoism{
+                background-image: url(resizedperfectviolin222.png); 
+                background-repeat: no-repeat; 
+                background-position: left top;
+                height: 239px;
+                width: 93px;
+                margin-top:325px; 
+                margin-left: 525px;
+                opacity: 0;
+            }
+        </style>
+    </head>
+    <body id="body">
+        <div id="tweet" style="position: absolute; visibility: hidden; z-index: 100; background-color: #000000; width: 50%; top: 175px; left: 320px;">
+        </div>
+        <img src= "theroom.png" alt="Dystopian Room View" style='position:fixed;top:0px;left:0px;width:100%;height:100%;z-index:-1;'> 
+        <div id="egoism"></div>
+        <div id="fillial"></div>
+        <div id="isolation"></div>
+        <div id="buraucracy"></div>
+        <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+        <script>
+            var socket = io();
+            var div = document.getElementById('tweet');
+            socket.on('tweet', function (tweet) {
+                div.innerHTML = '<h3 style="color: white;">' + tweet + '</h3>' +
+                        '<button onClick=\'userChoice("iso")\'>Isolation</button>' +
+                        '<button onClick=\'userChoice("fam")\'>Dislike of Family</button>' +
+                        '<button onClick=\'userChoice("ego")\'>Solicism</button>' +
+                        '<button onClick=\'userChoice("soc")\'>Disliking of Society</button>' +
+                        '<button onClick=\'userChoice("nad")\'>None</button>';
+                div.style.visibility = "visible";
+            });
+
+            function userChoice(name) {
+                div.style.visibility = "hidden";
+                switch (name) {
+                    case "iso":
+                        isolation();
+                        break;
+                    case "fam":
+                        fillial();
+                        break;
+                    case "ego":
+                        egoism();
+                        break;
+                    case "soc":
+                        buraucracy();
+                }
+                socket.emit('choice', name);
+            }
+
+            var iso = 0;
+            var fil = 0;
+            var bur = 0;
+            var ego = 0;
+            function isolation() {
+                iso = iso + .2;
+                document.getElementById('isolation').style.opacity = iso;
+            }
+
+            function fillial() {
+                fil = fil + .2;
+                document.getElementById('fillial').style.opacity = fil;
+            }
+
+            function buraucracy() {
+                bur = bur + .2;
+                document.getElementById('buraucracy').style.opacity = bur;
+            }
+
+            function egoism() {
+                ego = ego + .1;
+                document.getElementById('egoism').style.opacity = ego;
+            }
+
+        </script>
+</html>
